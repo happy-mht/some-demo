@@ -32,7 +32,6 @@ var Modal = (function($) {
 				'            <div class="modal-header">',
 				'                <span class="modal-title"></span>',
 				'				 <a class="btn-cancel" id="close">&times;',
-				//'					<span id="close">&times;<span>',
 				'				 </a>',
 				'            </div>',
 				'            <div class="modal-body"></div>',
