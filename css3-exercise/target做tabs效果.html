@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>tabs</title>
+  <style type="text/css">
+      *{margin:0;padding:0;}
+    .tabbed-area{
+      margin:auto;
+      width:500px;
+    }
+      li{
+          list-style:none;
+      display:inline;     
+      float:left;/*浮动后可使tab标签间没有空隙*/              
+      }
+    .group:after{
+      visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0;
+    }
+    ul{z-index:2;position:relative;}
+      a {
+        display:block;/*如果这里不是block/inline-block，那么<a>元素的高度会溢出<li>元素的高度*/
+            padding:5px;      
+      text-decoration:none;
+      background:#fff;  
+      
+    }
+    a,.box-wrap div{
+        border:1px solid #ccc;
+      margin-left:-1px;/*合并<a>左右两边的边框线*/
+      }
+    a:active{background:#fff;}
+    .box-wrap{            
+      height:400px;
+      position:relative;
+    }
+    .box-wrap div{
+        top:-1px;/*是激活的<a>元素和<div>元素之间没有边框线*/
+        height:400px;
+      position:absolute;
+      width:100%;
+      background:#fff;/*如果不设置背景色，各个tab页面的内容会重叠显示在页面上*/
+    }
+    /*tab标签页应该不是切换tab页的显示与隐藏属性，而是切换Z-index属性*/
+    #box-one:target .box-one, #box-two:target .box-two, #box-three:target .box-three{
+      z-index:1;
+    }
+    #box-one:target a[href="#box-one"], 
+    #box-two:target a[href="#box-two"], 
+    #box-three:target a[href="#box-three"]{
+        border-bottom: 1px solid white;
+      background:#fff;
+    }
+​ </style>
+</head>
+<body>
+<div id="box-one"><div id="box-two"><div id="box-three">
+    <div class="tabbed-area">
+
+      <ul class="tabs group">
+          <li><a href="#box-one">Tab 1</a></li>
+          <li><a href="#box-two">Tab 2</a></li>
+          <li><a href="#box-three">Tab 3</a></li>
+    </ul>
+    
+    <div class="box-wrap">
+    
+      <div class="box-one">
+        box one content 
+      </div>
+      
+      <div class="box-two">
+        box two content 
+      </div>
+      
+      <div class="box-three">
+        box three content 
+      </div>
+    
+    </div>
+
+  </div>
+ </div></div></div>
+​</body>
+</html>
