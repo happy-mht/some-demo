@@ -1,0 +1,387 @@
+.red {
+	color: red;
+}
+
+#menu {
+	height: 100px;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+.bootstrap-table thead tr {
+	background-color: #0e8bf1!important;
+	color: white;
+}
+#btn_edit,
+#btn_edit1,
+#btn_edit2,#btn_edit3,
+#btn_password {
+	color: #33A1E2;
+}
+
+#btn_delete,
+#btn_delete1,
+#btn_delete2,#btn_delete3 {
+	color: #ef8a09;
+}
+
+#btn_import,
+#btn_import1,
+#btn_import2,#btn_import3  {
+	color: red;
+}
+
+#btn_pass,
+#btn_deal,
+#btn_add,
+#btn_add1,
+#btn_add2,#btn_add3 {
+	color: #4cda60;
+}
+
+#btn_search,#btn_search1,#btn_search2,#btn_search3,
+#btn_report_form,.btn-ok,.btn-cancel {
+	background-color: #4cda60;
+	color: white;
+}
+
+#btn_reject,
+#btn_evaluate,
+#btn_repair {
+	color: #ef8a09;
+}
+
+#btn_recover {
+	color: #00b6ff;
+}
+
+#btn_chart {
+	border: 1px solid #4cda60!important;
+	margin-left: -5px;
+}
+
+.bs-bars {
+	/*使后四个按钮放到表格右边*/
+	width: 100%;
+}
+
+#toolbar {
+	padding: 0 10px;
+}
+
+#toolbar button {
+	border: none;
+}
+
+#toolbar span {
+	font-size: 16px;
+}
+
+.bs-bars,
+#toolbar {
+	width: 100%;
+	padding-right: 10px;
+}
+
+.pagination-detail {
+	display: none;
+}
+
+.pagination>li>a {
+	border: none!important;
+}
+
+.table th,
+.table td {
+	border: none!important;
+	text-align: center;
+}
+
+.table thead th .th-inner {
+	padding: 5px!important;
+}
+
+.bt-select {
+	border: none!important;
+	color: #0e8bf1;
+}
+
+.inputcls {
+	height: 30px!important;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+	width: 140px!important;
+}
+.modal-inputcls {
+	height: 30px!important;
+	border-radius: 0;
+	text-align: center;
+	border-right: 0!important;
+}
+.w134{width: 133.95px;;}
+
+.form-group {
+	margin-bottom: 0;
+}
+
+label {
+	text-align: right;
+}
+
+.bootstrap-table .table {
+	border-bottom: 0;
+}
+
+.fixed-table-container,
+.fixed-table-footer {
+	border: 0;
+}
+
+.fixed-table-footer table tbody tr td button {
+	border: none!important;
+	color: #006699;
+}
+
+.modal-header {
+	padding: 5px;
+	background-color: #0e8bf1;
+	color: white;
+}
+
+.model_row .row {
+	margin-bottom: 8px;
+}
+.model_row {
+}
+.modal-body {
+	padding-left: 0px;
+	padding-right: 25px;
+}
+
+.calen-cls {
+	color: #0e8bf1;
+	font-size: 18px;
+	background-color: white;
+	padding: 2px 8px;
+	border-left: 0;
+}
+
+#dt_start,
+#dt_end {
+	border-right: 0;
+}
+
+.dt-end-cls {
+	padding-left: 0!important;
+}
+
+.dt-start-cls {
+	padding-right: 0!important;
+}
+
+tbody tr:nth-of-type(odd) {
+	background-color: rgba(105, 174, 222, 0.05)!important;
+}
+
+.form_date {
+	width: 140px;
+}
+
+.w100 {
+	width: 120px!important;
+}
+
+.radio_1 {
+	display: none;
+}
+
+.radio_1+label {
+	display: inline-block;
+	position: relative;
+	margin-left: 30px;
+	font-weight: 500;
+	font-size: 1.1em;
+}
+
+.radio_1+label:before {
+	content: ' ';
+	position: absolute;
+	border: 1px solid #0e8bf1;
+	border-radius:90px;
+	width: 12px;
+	height: 12px;
+	margin-left: -20px;
+	margin-top: 0.3em;
+}
+
+.radio_1:checked+label:before {
+	content: ' ';
+	position: absolute;
+	background: #4F89D5;
+	box-shadow: 0 0 1px #4F89D5;
+	border-radius:90px;
+	border: 1px solid #4F89D5;
+	left;
+	26px;
+}
+.chk_1 {
+	display: none;
+}
+
+.chk_1+label {
+	display: inline-block;
+	position: relative;
+	margin-left: 30px;
+	font-weight: 500;
+	font-size: 1.1em;
+}
+
+.chk_1+label:before {
+	content: ' ';
+	position: absolute;
+	border: 1px solid #0e8bf1;
+	width: 12px;
+	height: 12px;
+	margin-left: -20px;
+	margin-top: 0.3em;
+}
+
+.chk_1:checked+label:before {
+	content: ' ';
+	position: absolute;
+	background: #4cda60;
+	box-shadow: 0 0 1px #4cda60;
+	border: 1px solid #4cda60;
+	left;
+	26px;
+}
+.table-check {
+	display: none;
+}
+
+.table-check+label {
+	display: inline-block;
+	position: relative;
+	margin-left: 20px;
+	margin-right: -5px;
+	font-weight: 500;
+	font-size: 1.1em;
+}
+
+.table-check+label:before {
+	content: ' ';
+	position: absolute;
+	border: 1px solid #0e8bf1;
+	width: 12px;
+	height: 12px;
+	margin-left: -20px;
+	margin-top:-0.36em;
+}
+
+.table-check:checked+label:before {
+	content: ' ';
+	position: absolute;
+	background: #4cda60;
+	box-shadow: 0 0 1px #4cda60;
+	border: 1px solid #4cda60;
+	left;
+	26px;
+}
+.must {
+	color: red;
+	vertical-align: bottom;
+}
+
+.w340 {
+	width: 340px!important;
+}
+
+.user_form {
+	margin-left: 50px;
+}
+
+.user_form .form-inline {
+	margin-bottom: 8px;
+}
+
+.user_check input {
+	margin-right: 10px;
+}
+
+.user_check input {
+	display: none;
+}
+
+.user_check input+label {
+	display: inline-block;
+	position: relative;
+	margin-left: 30px;
+	font-weight: 500;
+	font-size: 1.1em;
+}
+
+.user_check input+label:before {
+	content: ' ';
+	position: absolute;
+	border: 1px solid #0e8bf1;
+	width: 12px;
+	height: 12px;
+	margin-left: -20px;
+	margin-top: 0.3em;
+}
+
+.user_check input:checked+label:before {
+	content: ' ';
+	position: absolute;
+	background: #4cda60;
+	box-shadow: 0 0 1px #4cda60;
+	border: 1px solid #4cda60;
+	left;
+	26px;
+}
+.modal-footer{
+	text-align: center;
+}
+#dev_container{margin-top: 10px;}
+.enter-error{display: none;margin-left: 55px;padding:5px;}
+.repair-form {margin-left: 50px;}
+.repair-form .form-group{margin-bottom: 10px;}
+.repair-form .inputcls{width: 200px!important;}
+.btn-cancel,.btn-ok{border-radius: 6px!important;border-color: #4cda60;}
+span.select2-dropdown.select2-dropdown--below{z-index: 100000;}
+.score_container{margin-right: 6px;margin-left: 55px;}
+.reject-form{margin-right: 6px;margin-left: 30px;}
+.deal-form{margin-right: 6px;margin-left: 50px;}
+/*滚动条宽度*/    
+textarea::-webkit-scrollbar {    
+    width: 8px;  
+}     
+/* 轨道样式 */    
+textarea::-webkit-scrollbar-track {       
+}       
+/* Handle样式 */    
+textarea::-webkit-scrollbar-thumb {    
+    border-radius: 10px;    
+    background: #4cda60;     
+}             
+/*hover到滚动条上   
+::-webkit-scrollbar-thumb:vertical:hover{    
+    background-color:#4cda60;    
+}    
+滚动条按下  
+::-webkit-scrollbar-thumb:vertical:active{    
+    background-color: #4cda60;    
+} */  
+textarea {
+    scrollbar-highlight-color: #F0F5F7;
+    scrollbar-face-color:#4cda60;  
+    scrollbar-shadow-color: #d9c69f;
+    scrollbar-3dlight-color:#99cc99;  
+    scrollbar-arrow-color:#F0F5F7;    
+	scrollbar-track-color: #F0F5F7;   
+	scrollbar-darkshadow-color:#99cc99 ;
+	scrollbar-base-color: blue; 
+}
