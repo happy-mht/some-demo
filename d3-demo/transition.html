@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>过渡效果</title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+    let width = 500;
+    let height = 500;
+
+    //添加svg
+    let svg = d3.select('body')
+        .append('svg')
+        .attr('width',width)
+        .attr('height',height);
+
+    // 添加圆
+    // 第一个圆，一点x坐标
+    var circle1 = svg.append('circle')
+      .attr('cx',100)
+      .attr('cy',100)
+      .attr('r',45)
+      .style('fill','green');
+
+    circle1.transition()
+      .duration(1000)
+      .attr('cx',300);
+
+    // 第二个，移动x坐标，同时改变颜色
+    var circle2 = svg.append('circle')
+      .attr('cx',100)
+      .attr('cy',100)
+      .attr('r',45)
+      .style('fill','green');
+    circle2.transition()
+      .duration(1500)
+      .attr('cx',300)
+      .style('fill','red');
+
+    //第三个圆，要求既移动 x 坐标，又改变颜色，还改变半径。
+    var circle3 = svg.append('circle')
+      .attr('cx',100)
+      .attr('cy',100)
+      .attr('r',45)
+      .style('fill','green');
+    circle3.transition()
+      .duration(2000)
+      .ease(d3.easeBounceOut)
+      .attr('cx',300)
+      .attr('r',25)
+      .style('fill','red');
+  </script>
+</body>
+</html>

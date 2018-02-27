@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>pack</title>
+  <style>
+    .text{
+      font-size: 12px;
+      fill: white;
+      text-anchor: middle;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+    var dataset = {
+     name:"家用电器",
+     detail:[
+      {
+        name:"电视",
+        detail:[
+          {name:"曲面电视",revenue:200},
+          {name:"超薄电视",revenue:120},
+          {name:"电视配件",revenue:80}
+        ]
+      },{
+        name:"空调",
+        detail:[
+          {
+            name:"壁挂式",
+            detail:[
+              {name:"格力",revenue:100},
+              {name:"海尔",revenue:80}
+            ]
+          },{name:"柜式",revenue:40}
+        ]
+      }
+     ]
+    };
+     var city = {
+      "name":"中国",
+      "children":
+      [
+        { 
+          "name":"浙江" , 
+          "children":
+            [
+              {"name":"杭州" },
+              {"name":"宁波" },
+              {"name":"温州" },
+              {"name":"绍兴" }
+            ] 
+          },
+        { 
+          "name":"广西" , 
+          "children":
+          [
+            {"name":"桂林"},
+            {"name":"南宁"},
+            {"name":"柳州"},
+            {"name":"防城港"}
+          ] 
+        },
+        { 
+          "name":"黑龙江",
+          "children":
+          [
+            {"name":"哈尔滨"},
+            {"name":"齐齐哈尔"},
+            {"name":"牡丹江"},
+            {"name":"大庆"}
+          ] 
+        },
+        { 
+          "name":"新疆" , 
+          "children":
+          [
+            {"name":"乌鲁木齐"},
+            {"name":"克拉玛依"},
+            {"name":"吐鲁番"},
+            {"name":"哈密"}
+          ]
+        },
+        { 
+          "name":"河北" , 
+          "children":
+          [
+            {"name":"石家庄"},
+            {"name":"唐山"},
+            {"name":"邯郸"},
+            {"name":"秦皇岛"}
+          ]
+        },
+        { 
+          "name":"西藏" , 
+          "children":
+          [
+            {"name":"拉萨"},
+            {"name":"昌都"},
+            {"name":"林芝"}
+          ]
+        },
+        { 
+          "name":"江苏" , 
+          "children":
+          [
+            {"name":"南京"},
+            {"name":"无锡"},
+            {"name":"徐州"},
+            {"name":"常州"},
+            {"name":"连云港"},
+            {"name":"淮安"}
+          ]
+        },
+        { 
+          "name":"江苏" , 
+          "children":
+          [
+            {"name":"南京"},
+            {"name":"无锡"},
+            {"name":"徐州"},
+            {"name":"常州"},
+            {"name":"连云港"},
+            {"name":"淮安"}
+          ]
+        },
+        { 
+          "name":"湖南" , 
+          "children":
+          [
+            {"name":"长沙"},
+            {"name":"株洲"},
+            {"name":"湘潭"},
+            {"name":"衡阳"},
+            {"name":"邵阳"},
+            {"name":"岳阳"}
+          ]
+        },
+        { 
+          "name":"海南" , 
+          "children":
+          [
+            {"name":"海口"},
+            {"name":"三亚"},
+            {"name":"三沙"}
+          ]
+        },
+        { 
+          "name":"陕西" , 
+          "children":
+          [
+            {"name":"西安"},
+            {"name":"咸阳"},
+            {"name":"汉中"},
+            {"name":"安康"},
+            {"name":"榆林"},
+            {"name":"延安"}
+          ]
+        },
+        { 
+          "name":"甘肃" , 
+          "children":
+          [
+            {"name":"兰州"},
+            {"name":"酒泉"},
+            {"name":"金昌"},
+            {"name":"天水"},
+            {"name":"嘉峪关"},
+            {"name":"武威"}
+          ]
+        }
+      ]
+    }
+    var width = 900;
+    var height = 900;
+    var svg = d3.select('body')
+      .append('svg')
+      .attr('width',width)
+      .attr('height',height);
+    var g = svg.append("g").attr("transform", "translate(40,40)");
+
+    var root = d3.hierarchy(dataset,d=>d.detail)
+      //.sum(d=>d.revenue);
+
+    var pack = d3.pack()
+        .size([250,250])
+        //.padding(10)
+        .radius(d=>30);
+
+    var nodes = pack(root);
+
+   // 添加每个圆的G组
+    var gCircles = g.selectAll('g')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('transform',d=>'translate('+d.x+','+d.y+')')
+    //add circle
+    gCircles.append('circle')
+      .attr('cx',0)
+      .attr('cy',0)
+      .attr('r',d=>d.r)
+      .attr('fill','rgb(31,119,180)')
+      .attr('fill-opacity','0.4')
+      .on('mouseover',function(d){
+        d3.select(this)
+          .attr('fill','yellow');
+      })
+      .on('mouseout',function(d){
+        d3.select(this)
+          .attr('fill','rgb(31,119,180)');
+      })
+
+    // add text
+    gCircles.append('text')
+      .attr('x',0)
+      .attr('y',0)
+      .attr('class','text')
+      .text(d=>d.children?'':d.data.name)
+
+    // add title
+    gCircles.append('title')
+      .text(d=>d.data.name+'\n销售额：'+d.value)
+
+
+
+  // ---------------------city pack-----------------------
+    var cityRoot = d3.hierarchy(city,d=>d.children)
+    console.log(cityRoot)
+
+    var cityPack = d3.pack()
+      .size([250,250])
+      .radius(d=>20);
+
+    var cityNodes = cityPack(cityRoot)
+
+    var gCity = svg.append("g").attr("transform", "translate(310,310)");
+
+    // 城市G组
+    var cityG = gCity.selectAll('g')
+      .data(cityRoot.descendants())
+      .enter()
+      .append('g')
+      .attr('transform',d=>'translate('+d.x+','+d.y+')')
+
+    //add circle
+    cityG.append('circle')
+      .attr('cx',0)
+      .attr('cy',0)
+      .attr('r',d=>d.r)
+      .attr('fill','rgb(31,119,180)')
+      .attr('fill-opacity','0.4')
+      .on('mouseover',function(d){
+        d3.select(this)
+          .attr('fill','yellow');
+      })
+      .on('mouseout',function(d){
+        d3.select(this)
+          .attr('fill','rgb(31,119,180)');
+      })
+
+    // add text
+    cityG.append('text')
+      .attr('x',0)
+      .attr('y',0)
+      .attr('class','text')
+      .text(d=>d.children?'':d.data.name)
+
+
+  </script>
+  
+</body>
+</html>

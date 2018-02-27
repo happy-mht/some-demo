@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>树状图&&集群图</title>
+    <style>
+    .node circle {
+      fill: #999;
+    }
+
+    .node text {
+      font: 10px sans-serif;
+    }
+
+    .node--internal circle {
+      fill: #555;
+    }
+
+    .node--internal text {
+      text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    }
+
+    .link {
+      fill: none;
+      stroke: #555;
+      stroke-opacity: 0.4;
+      stroke-width: 1.5px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+    var json = {
+      "name":"中国",
+      "children":
+        [{ 
+          "name":"浙江" , 
+          "children":
+          [
+            {"name":"杭州" },
+            {"name":"宁波" },
+            {"name":"温州" },
+            {"name":"绍兴" }
+          ]
+        },      
+        { 
+          "name":"广西" , 
+          "children":
+          [{
+          "name":"桂林",
+          "children":
+            [
+              {"name":"秀峰区"},
+              {"name":"叠彩区"},
+              {"name":"象山区"},
+              {"name":"七星区"}
+            ]
+         },
+          {"name":"南宁"},
+          {"name":"柳州"},
+          {"name":"防城港"}
+        ] 
+      },      
+      { 
+        "name":"黑龙江",
+        "children":
+          [
+            {"name":"哈尔滨"},
+            {"name":"齐齐哈尔"},
+            {"name":"牡丹江"},
+            {"name":"大庆"}
+        ] 
+      },  
+      { 
+        "name":"新疆" , 
+        "children":
+          [
+            {"name":"乌鲁木齐"},
+            {"name":"克拉玛依"},
+            {"name":"吐鲁番"},
+            {"name":"哈密"}
+          ]
+      }
+     ]
+    }
+    var width = 1000;
+    var height = 960;
+    var svg = d3.select('body')
+      .append('svg')
+      .attr('width',width)
+      .attr('height',height);
+
+    var g = svg.append("g").attr("transform", "translate(40,40)");
+    var clusterG = svg.append('g').attr('transform', 'translate(410,40)')
+    var tree = d3.tree()
+      .size([400,400]);
+
+    var root = d3.hierarchy(json);
+    var nodes = tree(root)
+
+     // links
+    var link = g.selectAll('.link')
+      .data(root.links())
+      .enter()
+      .append('line')
+        .attr('class','link')
+        .attr('x1',d=>d.source.x)
+        .attr('y1',d=>d.source.y)
+        .attr('x2',d=>d.target.x)
+        .attr('y2',d=>d.target.y)
+
+    // Nodes
+    var node = g.selectAll('.node')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+        .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+
+    node.append('circle')
+      .attr('r',4)  
+      .attr('r', 2.5);
+
+    //texts
+    node.append('text')
+      .attr("dy", 3)
+      .attr("y", function(d) { return d.children ? -10 : 10; })
+      .attr("x", function(d) { return d.children ? 8 : -8; })
+      .style('text-anchor',d=>d.children ? 'end' : 'start')
+      .text(d=>d.data.name)
+
+   //集群图
+   var cluster = d3.cluster().size([400,400]);
+   var clusterNodes = cluster(root);
+   var clusterNodeLink = clusterG.selectAll('.link')
+      .data(root.links())
+      .enter().append('path')
+        .attr('class','link')
+        .attr('d',d=>{
+          return 'M' + d.target.x +',' +  d.target.y
+              + 'C' + d.target.x + ',' +  (d.target.y-100)
+              + ' '+ d.target.x + ',' +  (d.source.y+100)    
+              + ' '+ d.source.x + ',' +  d.source.y
+        }) 
+
+    var clusterNode = clusterG.selectAll(".node")
+      .data(root.descendants())
+      .enter().append("g")
+      .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+
+    clusterNode.append("circle")
+      .attr("r", 2.5);
+
+    clusterNode.append("text")
+      .attr("dy", 3)
+      //.attr("x", function(d) { return d.children ? -8 : 8; }) //水平方向的text位置
+      .attr("y", function(d) { return d.children ? -10 : 10; })
+      .attr("x", function(d) { return d.children ? 8 : -8; })
+      .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+      .text(function(d) { 
+        return d.data.name; 
+      });
+  </script>
+</body>
+</html>

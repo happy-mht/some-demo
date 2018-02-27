@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>弦图</title>
+  <style>
+    body {
+      font: 10px sans-serif;
+    }
+
+    .group-tick line {
+      stroke: #000;
+    }
+
+    .ribbons {
+      fill-opacity: 0.67;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <!-- 弦图（Chord），主要用于表示两个节点之间的联系。 -->
+  <script>
+   
+    
+   var matrix = [
+      [11975,  5871, 8916, 2868],
+      [ 1951, 10048, 2060, 6171],
+      [ 8010, 16145, 8090, 8045],
+      [ 1013,   990,  940, 6907]
+    ];
+ 
+    var formatValue = d3.formatPrefix(",.0", 1e3);
+    var width = 960;
+    var height = 960;
+    var innerRadius = width / 2 * 0.7;
+    var outerRadius = innerRadius * 1.1;
+
+    var svg = d3.select('body').append('svg')
+      .attr('height',height)
+      .attr('width',width);
+
+    var arc = d3.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+
+    var chord = d3.chord()
+      .padAngle(0.03) //设置相邻分组之间的间隔
+      .sortSubgroups(d3.descending) //排序
+
+    var ribbon = d3.ribbon()
+      .radius(innerRadius) //根据制定的数据生成一个ribbon路径
+
+    var color = d3.scaleOrdinal()
+      .domain(d3.range(4))
+      .range(["#000000", "#FFDD89", "#957244", "#F26223"]);
+
+    var g = svg.append('g')
+      .attr('transform','translate('+width/2 + ','+height/2+')')
+      .datum(chord(matrix));
+
+    var group = g.append('g')
+      .attr('class','groups')
+      .selectAll('g')
+      .data(chords=>chords.groups)
+      .enter()
+      .append('g');
+
+    group.append('path')
+      .style('fill',d=>color(d.index))
+      .style('stroke',d=>d3.rgb(color(d.index)).darker())
+      .attr('d',arc);
+
+    var groupTick = group.selectAll('.group-tick')
+      .data(d=>groupTicks(d,1e3))
+      .enter()
+      .append('g')
+        .attr('class','group-tick')
+        .attr("transform", d=>{
+         return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)";
+          });
+    
+    groupTick.append('line')
+      .attr('x2',6);
+
+    groupTick.filter(d=> d.value % 5e3 === 0)
+      .append('text')
+        .attr('x',8)
+        .attr('dy','.35em')
+        .attr("transform", d=>{
+          return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; 
+        })
+        .style('text-anchor',d => {
+          return d.angle > Math.PI ? 'end' : null;
+        })
+        .text(d=>formatValue(d.value))
+
+    g.append('g')
+      .attr('class','ribbons')
+      .selectAll('path')
+      .data(chords=>chords)
+      .enter()
+      .append('path')
+        .attr('d',ribbon)
+        .style('fill',d=>color(d.target.index))
+        .style('stroke',d =>{ 
+          return d3.rgb(color(d.target.index)).darker(); });
+
+    // Returns an array of tick angles and values for a given group and step.
+    function groupTicks(d, step) {
+      var k = (d.endAngle - d.startAngle) / d.value;
+      return d3.range(0, d.value, step).map(function(value) {
+        return {value: value, angle: value * k + d.startAngle};
+      });
+    }
+  </script>
+  
+</body>
+</html>

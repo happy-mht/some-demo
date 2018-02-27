@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>d3-force</title>
+  <style>
+    .links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    stroke-width:1;
+  }
+
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <svg width="960" height="600"></svg>
+  <script>
+    var nodes = [ { name: "桂林" }, { name: "广州" },
+              { name: "厦门" }, { name: "杭州" },
+              { name: "上海" }, { name: "青岛" },
+              { name: "天津" } ];
+ 
+    var edges = [ { source : 0 , target: 1 } , { source : 0 , target: 2 } ,
+               { source : 0 , target: 3 } , { source : 1 , target: 4 } ,
+               { source : 1 , target: 5 } , { source : 1 , target: 6 } ];
+    var svg = d3.select('svg'),
+      width = +svg.attr('width'),
+      height = +svg.attr('height');
+
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+    var simulation = d3.forceSimulation()
+      .force('link',d3.forceLink())
+      .force('charge',d3.forceManyBody())
+      .force('center',d3.forceCenter(width / 2, height / 2));
+
+    var link = svg.append('g')
+       .attr('class','links')
+       .selectAll('line')
+       .data(edges)
+       .enter().append('line');
+
+    var node = svg.append('g')
+      .attr('class','nodes')
+      .selectAll('circle')
+      .data(nodes)
+      .enter().append('circle')
+      .attr('r',20)
+      .attr('fill',(d,i)=>color(i))
+      .call(d3.drag()
+          .on('start',dragstarted)
+          .on('drag',dragged)
+          .on('end',dragended))
+
+    var texts = svg.selectAll('text')
+      .data(nodes)
+      .enter().append('text')
+      .style('fill','black')
+      .attr('dx',20)
+      .attr('dy',8)
+      .text(d=>d.name)
+
+    simulation.nodes(nodes)
+      .on('tick',ticked);
+
+    simulation.force('link')
+      .links(edges)
+      .distance(150);
+
+    simulation.force('charge').strength([-400])
+
+
+    function ticked() {
+      link.attr('x1',d=>d.source.x)
+        .attr('y1',d=>d.source.y)
+        .attr('x2',d=>d.target.x)
+        .attr('y2',d=>d.target.y);
+
+      node.attr('cx',d=>d.x)
+        .attr('cy',d=>d.y)
+
+      texts.attr('x',d=>d.x)
+        .attr('y',d=>d.y)
+    }
+
+    function dragstarted(d){
+      if(!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragended(d){
+      if(!d3.event.active) simulation.alphaTarget(0).restart();
+      d.fx = null;
+      d.fy = null;
+    }
+
+  </script>
+</body>
+</html>

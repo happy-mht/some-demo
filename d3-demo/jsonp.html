@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>jsonp</title>
+  <style>
+   /*1、定位 盒子宽高已知*/
+    .middle{
+      width: 200px;
+      height: 200px;
+      border: 1px solid #777;
+      position: absolute;
+      margin-right: -100px;
+      margin-top: -100px;
+      left: 50%;
+      top:50%;
+    }
+    /*2、table-cell布局*/
+    .table-css{
+      display: table-cell;
+      vertical-align: middle;
+      border: 1px solid #777;
+      width: 200px;
+      height: 200px;
+    }
+    .table-css div{
+      margin: 0 auto;
+      width: 100px;
+      border: 1px solid #777;
+    }
+    /* 3、定位+ transform */
+    .transform{ /*适用于子盒子高度不确定时*/
+      width: 200px;
+      height: 200px;
+      border: 1px solid #777;
+      position: absolute;
+      left: 50%;
+      top:50%;
+      transform: translate(-50%,-50%);
+    }
+    /*4、flex布局*/
+    .flex{
+      width: 200px;
+      height: 200px;
+      border: 1px solid #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <p>hello today is sunday!<p>
+  <!-- <div id="message" class="middle"></div> -->
+  <div class="table-css">
+    <div>
+      this is table-cell;
+    </div>
+  </div>
+  <div class="transform">
+    <div>
+      transform vertical-align
+    </div>
+  </div>
+  <div class="flex">
+    <div>
+      this is flex box
+    </div>
+  </div>
+  <script>
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = "https://api.douban.com/v2/book/search?q=javascript&count=1&callback=handleResponse";
+    document.head.appendChild(script)
+    function handleResponse(res){
+      console.log(res)
+    }
+    const a = [2,3,4]
+    a[0] = [2,2,2]
+    window.addEventListener('copy',function(){
+        document.getElementById('message').innerHTML = 'copy behaviour!';
+    })
+    console.log(window.getSelection())
+
+
+  </script>
+</body>
+</html>

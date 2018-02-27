@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>集群图(水平+垂直)的制作</title>
+  <style>
+    .node circle {
+      fill: #999;
+    }
+
+    .node text {
+      font: 10px sans-serif;
+    }
+
+    .node--internal circle {
+      fill: #555;
+    }
+
+    .node--internal text {
+      text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    }
+
+    .link {
+      fill: none;
+      stroke: #555;
+      stroke-opacity: 0.4;
+      stroke-width: 1.5px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+    var width = 960;
+    var height = 960;
+    var svg = d3.select('body')
+      .append('svg')
+      .attr('width',width)
+      .attr('height',height);
+    var g = svg.append("g").attr("transform", "translate(40,40)");
+    var json = {
+      "id":"中国",
+      "children":
+      [
+        { 
+          "id":"浙江" , 
+          "children":
+          [
+            {"id":"杭州" },
+            {"id":"宁波" },
+            {"id":"温州" },
+            {"id":"绍兴" }
+          ] 
+        },      
+        { 
+          "id":"广西" , 
+          "children":
+          [
+            {"id":"桂林"},
+            {"id":"南宁"},
+            {"id":"柳州"},
+            {"id":"防城港"}
+          ] 
+        },     
+        { 
+          "id":"黑龙江",
+          "children":
+          [
+            {"id":"哈尔滨"},
+            {"id":"齐齐哈尔"},
+            {"id":"牡丹江"},
+            {"id":"大庆"}
+          ] 
+        },
+        { 
+          "id":"新疆" , 
+          "children":
+          [
+            {"id":"乌鲁木齐"},
+            {"id":"克拉玛依"},
+            {"id":"吐鲁番"},
+            {"id":"哈密"}
+          ]
+        }
+      ]
+    }
+    
+    var cluster = d3.cluster()
+      .size([width-200,height - 200]);
+
+   //D3 V4要求层次化输入数据规整后必须以d3.hierarchy对象的形式存在
+    var root = d3.hierarchy(json)
+    var nodes = cluster(root);
+    //C curveto  三次贝塞尔曲线到 (x1 y1 x2 y2 x y)+
+
+    // 使用root.descendants() 表示连接线
+    
+   /* var link = g.selectAll(".link")
+      .data(root.descendants().slice(1)) //除去根元素
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        return "M" + d.y + "," + d.x
+            + "C" + (d.parent.y + 100) + "," + d.x
+            + " " + (d.parent.y + 100) + "," + d.parent.x
+            + " " + d.parent.y + "," + d.parent.x;
+      });*/
+
+    //水平方向的集群图：这里x表示垂直方向，y表示水平方向，
+    /*var link = g.selectAll('.link')
+      .data(root.links())
+      .enter().append('path')
+        .attr('class','link')
+        .attr('d',d=>{
+          return 'M' + d.target.y +',' +  d.target.x
+              + 'C' + (d.source.y+100) + ',' +  d.target.x
+              + ' '+ (d.source.y+100) + ',' +  d.source.x
+              + ' '+ d.source.y + ',' +  d.source.x
+        })
+     var node = g.selectAll(".node")
+      .data(root.descendants())
+      .enter().append("g")
+      .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })*/
+
+    //垂直方向的集群图：这里向下是Y轴的正方向，
+    var link = g.selectAll('.link')
+      .data(root.links())
+      .enter().append('path')
+        .attr('class','link')
+        .attr('d',d=>{
+          return 'M' + d.target.x +',' +  d.target.y
+              + 'C' + d.target.x + ',' +  (d.target.y-100)
+              + ' '+ d.target.x + ',' +  (d.source.y+100)    
+              + ' '+ d.source.x + ',' +  d.source.y
+        }) 
+
+    var node = g.selectAll(".node")
+      .data(root.descendants())
+      .enter().append("g")
+      .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+
+    node.append("circle")
+      .attr("r", 2.5);
+
+    node.append("text")
+      .attr("dy", 3)
+      //.attr("x", function(d) { return d.children ? -8 : 8; }) //水平方向的text位置
+      .attr("y", function(d) { return d.children ? -10 : 10; })
+      .attr("x", function(d) { return d.children ? 8 : -8; })
+      .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+      .text(function(d) { 
+        return d.data.id; 
+      });
+  </script>
+</body>
+</html>

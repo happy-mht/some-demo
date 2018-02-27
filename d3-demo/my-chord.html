@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>chord</title>
+  <style>
+    .chord path {
+      fill-opacity: 0.67;
+      stroke: #000;
+      stroke-width: 0.5px;
+  }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+     var city_name = [ "北京" , "上海" , "广州" , "深圳" , "香港"  ];
+     var population = [
+        [ 1000,  3045　 , 4567　, 1234 , 3714 ],
+        [ 3214,  2000　 , 2060　, 124  , 3234 ],
+        [ 8761,  6545　 , 3000　, 8045 , 647  ],
+        [ 3211,  1067  , 3214 , 4000  , 1006 ],
+        [ 2146,  1034　 , 6745 , 4764  , 5000 ]
+      ];
+
+    var width = 960;
+    var height = 960;
+    var innerRadius = width / 2 * 0.7;
+    var outerRadius = innerRadius * 1.1;
+
+    var svg = d3.select('body').append('svg')
+      .attr('height',height)
+      .attr('width',width);
+
+    var arc = d3.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+
+    var chord = d3.chord()
+      .padAngle(0.03) //设置相邻分组之间的间隔
+      .sortSubgroups(d3.descending) //排序
+
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
+    var g_outer = svg.append('g')
+      .attr('transform','translate('+width/2 + ','+height/2+')')
+      .datum(chord(population));
+
+    // 绘制节点（即分组，有多少个城市画多少个弧形），及绘制城市名称。
+    g_outer.selectAll('path')
+      .data(chords=>chords.groups)
+      .enter()
+      .append('path')
+      .style('fill',d=>color(d.index))
+      .style('stroke',d=>color(d.index))
+      .attr('d',arc);
+
+    g_outer.selectAll('text')
+      .data(chords=>chords.groups)
+      .enter()
+      .append('text')
+      .each((d,i)=>{
+        d.angle = (d.startAngle + d.endAngle) / 2;
+        d.name = city_name[i];
+      })
+      .attr('dy','0.35em')
+      .attr('transform',d=>{
+        return "rotate(" + ( d.angle * 180 / Math.PI ) + ")" +
+       "translate(0,"+ -1.0*(outerRadius+10) +")" +
+       ( ( d.angle > Math.PI*3/4 && d.angle < Math.PI*5/4 ) ? "rotate(180)" : ""); //当角度在 135° 到 225° 之间时，旋转 180°。
+      })
+      .text(d => d.name)
+
+    // 绘制连线
+    var ribbon = d3.ribbon()
+      .radius(innerRadius) //根据制定的数据生成一个ribbon路径
+
+    g_outer.append('g')
+      .attr('class','chord')
+      .selectAll('path')
+      .data(chords=>{
+        return chords
+      })
+      .enter()
+      .append('path')
+        .attr('d',ribbon)
+        .style('fill',d=>color(d.source.index))
+        .style('stroke',d =>color(d.source.index))
+        .on('mouseover',function(d){ // 这里不能使用箭头函数
+          d3.select(this)
+          .style("fill","yellow");
+        })
+        .on("mouseout",function(d,i) { 
+           d3.select(this)
+            .transition()
+            .duration(1000)
+            .style("fill",color(d.source.index));
+        });
+  </script>
+</body>
+</html>

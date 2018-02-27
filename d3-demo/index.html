@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>绘制柱形图</title>
+  </head>
+  <body>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>   -->
+    <!-- built files will be auto injected -->
+    <!-- 注意d3.v4版本每一个功能都有一个独立的命名空间，而d3.v3.x则是相互叠加的
+    比如d3.scale.linear成了现在的d3.scaleLinear,d3.layout.treemap成了d3.treemap。 -->
+   
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+      /*
+      <rect> 绘制矩形，x,y,width,height
+      */
+      let width = 300;
+      let height = 300;
+      let dataset = [250,210,170,130,90];
+
+      //添加svg
+      let svg = d3.select('body')
+          .append('svg')
+          .attr('width',width)
+          .attr('height',height);
+      //添加rectangle
+      let rectHeight = 25;
+     
+       
+        //1.线性比例尺
+
+      let dataset2 = [2.5 , 2.1 , 1.7 , 1.3 , 0.9]
+      let min = d3.min(dataset2)
+      let max = d3.max(dataset2)
+      let linear = d3.scaleLinear()
+        .domain([min, max])
+        .range([0, 250]);
+      console.log(linear(1.9))
+
+      //2.序列比例尺（离散）
+      let index = [0,1,2,3,4];
+      let color = ["red", "blue", "green", "yellow", "black"];
+      let ordinal = d3.scaleOrdinal()
+          .domain(index)
+          .range(color)
+      console.log(ordinal(3))
+
+      // 3. 给柱形图加比例尺
+       svg.selectAll('rect')
+          .data(dataset2)
+          .enter() //enter()只是进行选择，并未实际添加所需DOM元素，称之为“虚拟DOM”或“占位符(placeholder)”。因此在enter()之后一般都会配合append()来进行DOM元素的实际创建。
+          .append('rect') // 添加足够数量的矩形元素
+          .attr('x',20)
+          .attr('y',(d,i)=> i * rectHeight)
+          .attr('width',d=>linear(d)) //使用比例尺
+          .attr('height',rectHeight-2)
+          .attr('fill','steelblue');
+    </script>
+  </body>
+</html>

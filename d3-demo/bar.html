@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>完整的柱形图</title>
+  <style>
+    .axis path,
+    .axis line{
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+
+    .my-rect {
+      fill: steelblue;
+    }
+
+    .my-text {
+      fill: white;
+      text-anchor: middle;
+  }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <script>
+    //1.添加画布
+    var width = 300;
+    var height = 300;
+    var svg = d3.select('body')
+      .append('svg')
+      .attr('width',width)
+      .attr('height',height);
+    //画布周边的空白
+    var padding = {left:30, right:30, top:20, bottom:20};
+
+    //2.定义数据和比例尺
+    var dataset = [2.5,2.1,1.7,1.3,0.9];
+    var xScale = d3.scaleBand()
+      .domain(d3.range(dataset.length))
+      .range([0, width - padding.left - padding.right]);
+    var yScale = d3.scaleLinear()
+      .domain([0,d3.max(dataset)])
+      .range([height-padding.top-padding.bottom, 0])
+
+    //3.定义坐标轴
+    var xAxis = d3.axisBottom()
+      .scale(xScale)
+    var yAxis = d3.axisLeft()
+      .scale(yScale)
+
+    //4.添加矩形和文字元素
+    //添加矩形
+    var rectPadding = 4;
+    var rects = svg.selectAll('rect')
+      .data(dataset)
+      .enter()
+      .append('rect')
+      // .attr('class','my-rect')
+      //带交互的柱形图 填充颜色不要写在css中
+      .attr('fill','steelblue')  
+      // 注意这里不能使用箭头函数！！！
+      .on("mouseover",function(d,i){
+        d3.select(this)
+          .attr("fill","yellow");
+      })
+      .on("mouseout",function(d,i){
+        d3.select(this)
+          .transition()
+              .duration(500)
+          .attr("fill","steelblue");
+      }) 
+      .attr('transform','translate('+padding.left+','+padding.top+')')
+      .attr('x',(d,i)=> xScale(i)+rectPadding/2)
+      .attr('y',d=>yScale(d))
+      .attr('width',xScale.bandwidth()-rectPadding)
+      .attr('height',d=>{
+        return height - padding.top - padding.bottom-yScale(d);
+      });
+
+
+    //添加文字
+    var texts = svg.selectAll('.my-text')
+      .data(dataset)
+      .enter()
+      .append('text')
+      .attr('class','my-text')
+      .attr('transform','translate('+padding.left+','+padding.top+')')
+      .attr('x',(d,i)=>{
+        return xScale(i)+rectPadding/2;
+      })
+     // .attr('y',d=>yScale(d))
+      // 加上动态效果
+      .attr('y',d=>{
+        let min = yScale.domain()[0];
+        return yScale(min);
+      })
+      .transition()
+      .delay((d,i)=> i*200)
+      .duration(2000)
+      .ease(d3.easeBounceOut)
+      .attr('y',d=>yScale(d))
+      .attr('dx',()=>{
+        return (xScale.bandwidth()-rectPadding)/2;
+      })
+      .attr('dy',d=>20)
+      .text(d=>d)
+
+    //5.添加坐标轴的元素
+    svg.append('g')
+    .attr('class','axis')
+    .attr('transform','translate('+padding.left+','+(height-padding.bottom)+')')
+    .call(xAxis)
+    svg.append('g')
+    .attr('class','axis')
+    .attr('transform','translate('+padding.left+','+padding.top+')')
+    .call(yAxis)
+
+  
+
+  </script>
+</body>
+</html>
