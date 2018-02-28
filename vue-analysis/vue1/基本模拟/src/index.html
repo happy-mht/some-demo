@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>数据观察</title>
+  <script src="util.js"></script>
+  <script src="build.js"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="msg" v-on="click">
+    hello mht {{msg}}
+    <ul>
+      <li>{{ msg }}</li>
+    </ul>
+    <button type="button" v-on:click="greet">按钮</button>
+  </div>
+  <script>
+    window.onload = function(){
+      let vm = new Vue({
+        el:'#app',
+        data:{
+          msg:'Hello Vue.js!'
+        },
+        methods:{
+          greet(){
+            this.message = 'change data^_^'
+          }
+        }
+      })
+    }
+    console.log(warn$2)
+  </script>
+</body>
+</html>
