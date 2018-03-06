@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .flex {
+            display: flex;
+            border: 1px solid #ccc;
+            width: 306px;
+            flex-wrap: wrap;
+        }
+        
+        .flex .item {
+            border: 1px solid #ccc;
+            width: 100px;
+            height: 100px;
+        }
+        
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+        }
+        
+        span {
+            font-size: 12px
+        }
+        
+        .container {
+            display: grid;
+            height: 200px;
+            grid-template-columns: 60px 60px 60px 60px;
+            grid-template-rows: auto;
+            grid-template-areas: "header header header header" "main main . sidebar" "footer footer footer footer";
+            /* grid-column-gap: 2px;
+            grid-row-gap: 5px; */
+            grid-gap: 5px 2px;
+        }
+        
+        .container div {
+            border: 1px solid #ccc;
+        }
+        
+        .item-a {
+            grid-area: header;
+        }
+        
+        .item-b {
+            grid-area: main;
+        }
+        
+        .item-c {
+            grid-area: sidebar;
+        }
+        
+        .item-d {
+            grid-area: footer;
+        }
+        
+        .grid {
+            width: 300px;
+            display: grid;
+            grid-template-columns: 40px 50px 50px 60px;
+            grid-template-rows: 25% 100px auto
+        }
+    </style>
+</head>
+
+<body>
+    <!--使用flex布局-->
+    <p class="describ">使用flex布局,需要设置css属性 flex-wrap:wrap;</p>
+    <ul class="flex">
+        <li class="item"><span>1</span></li>
+        <li class="item"><span>2</span></li>
+        <li class="item"><span>3</span></li>
+        <li class="item"><span>4</span></li>
+    </ul>
+
+    <!-- 使用grid布局 -->
+    <p class="describ">使用grid布局页面,需要设置css属性 grid-template-areas</p>
+    <div class="container">
+        <div class="item item-a">header</div>
+        <div class="item item-b">main</div>
+        <div class="item item-c">sidebar</div>
+        <div class="item item-d">footer</div>
+    </div>
+    <div class="grid">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+    </div>
+</body>
+
+</html>
