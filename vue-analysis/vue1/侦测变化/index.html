@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="app">
+        {{msg}}
+    </div>
+    <script>
+        //观察者--》变量侦测--》收集依赖--》通知依赖变化
+        //节点编译--》依赖者
+
+        let uid = 0;
+        // 侦测变化
+        function defineReactive(vm, data, key) {
+            let dep = new Dep();
+            Object.defineProperty(vm, key, {
+                enumerable: true,
+                configurable: true,
+                get() {
+                    dep.depend()
+                    return data[key]
+                },
+                set(newVal) {
+                    if (newVal == data[key]) return;
+                    data[key] = newVal;
+                    dep.notify()
+                }
+            })
+        }
+        // 收集依赖
+        class Dep {
+            constructor() {
+                this.id = uid++;
+                this.subs = [];
+            }
+            addSub(sub) {
+                this.subs.push(sub);
+            }
+            depend() {
+                if (Dep.target) {
+                    this.addSub(Dep.target);
+                }
+            }
+            notify() {
+                let subs = [...this.subs];
+                subs.forEach(sub => sub.update())
+            }
+        }
+
+        // 监听器
+        class Watcher {
+            constructor(vm, node, key) {
+                Dep.target = this;
+                this.vm = vm;
+                this.node = node;
+                this.key = key;
+                this.update()
+            }
+            get() {
+                this.value = this.vm[this.key]
+            }
+            update() {
+                this.get()
+                if (this.node.nodeType == 3) {
+                    this.node.nodeValue = this.value;
+                }
+            }
+        }
+
+        // 观察者
+        class Observer {
+            constructor(vm, data) {
+                // this.vm = vm;
+                // this.data = data;
+                this.walk(vm, data)
+            }
+            walk(vm, data) {
+                Object.keys(data).forEach(element => {
+                    defineReactive(vm, data, element)
+                });
+            }
+        }
+
+        // Vue 实例
+        class Vue {
+            constructor(opts) {
+                this.el = opts.el;
+                this.data = opts.data;
+                new Observer(this, this.data)
+                let el = document.querySelector(this.el)
+                let dom = nodeToElement(el, this);
+                el.append(dom)
+            }
+        }
+
+        nodeToElement = (node, vm) => {
+            let frag = document.createDocumentFragment()
+            while (child = node.firstChild) {
+                compile(child, vm)
+                frag.append(child)
+            }
+            return frag
+        }
+
+        // 编译
+        compile = (node, vm) => {
+            let reg = /\{\{(.*)\}\}/;
+            if (node.nodeType == 3) {
+                if (reg.test(node.nodeValue)) {
+                    let key = RegExp.$1.trim()
+                    new Watcher(vm, node, key)
+                }
+            }
+        }
+    </script>
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hha'
+            }
+        })
+    </script>
+</body>
+
+</html>
