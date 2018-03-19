@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>数组去重</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script>
+        //1
+        let arr = [2, 1, undefined, undefined, null, null, NaN, NaN, 4, 2, ]
+            //let arr2 = Array.from(new Set(arr))
+        let arr2 = [...new Set(arr)]
+        console.log(arr2)
+
+        //2
+        let arr3 = [];
+        arr.forEach(value => {
+            if (!arr3.includes(value)) {
+                arr3.push(value)
+            }
+        })
+        console.log(arr3)
+
+        //3 这个方法得到的数组数据都是字符串
+        let ob = {};
+        arr.forEach(v => {
+            ob[v] = 0;
+        })
+        console.log(ob)
+        let arr4 = Array.from(Object.keys(ob))
+        console.log(arr4)
+
+        //4 这种方法需要单独判断是不是NaN
+        let arr5 = arr.filter((v, i, array) =>
+            i == array.indexOf(v)
+        )
+        console.log(arr5)
+            //5
+        arr.forEach((v, i) => {
+            if (arr.includes(v, i + 1)) {
+                arr.splice(i, 1)
+            }
+        })
+        console.log(arr)
+    </script>
+</body>
+
+</html>

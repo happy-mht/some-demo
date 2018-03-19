@@ -33,7 +33,7 @@
                 }
             })
         }
-        // 收集依赖
+        // 收集依赖 -- 发布者
         class Dep {
             constructor() {
                 this.id = uid++;
@@ -53,7 +53,7 @@
             }
         }
 
-        // 监听器
+        // 监听器 --订阅者
         class Watcher {
             constructor(vm, node, key) {
                 Dep.target = this;

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        //ES5
+        function A(name, id) {
+            this.name = name;
+            this.id = id;
+            this.sex = 'nv'
+        }
+        A.prototype.say = function() {
+            console.log(this.name)
+        }
+        A.job = 'teacher';
+
+        function B(name, id, age) {
+            A.call(this, name, id)
+            this.age = age
+        }
+        let obA = new A()
+
+        Object.setPrototypeOf(B, A) // B继承A的静态属性 ==> B.__proto__ = A
+        Object.setPrototypeOf(B.prototype, A.prototype) //B的实例继承A的实例 ==> B.prototype.__proto__=A.prototype
+            /*
+             ** 这里有2条继承链
+             ** 1) 作为一个对象，子类B的原型(__proto__属性)是父类
+             ** 2) 作为一个构造函数，子类B的原型(prototype属性)是父类的实例
+             */
+
+        let ob = new B('mht', 1, 22)
+        ob.say()
+        console.log(A.job)
+        console.log(B.job)
+
+        // ES6
+
+        class C {
+            constructor(name, id) {
+                this.name = name;
+                this.id = id;
+            }
+            say() {
+                console.log(this.name)
+            }
+        }
+
+        class D extends C {
+            constructor(name, id, age) {
+                super(name, id); // 这里必须先调用super方法
+                this.age = age;
+            }
+        }
+
+        let obD = new D('mht', 22, 33)
+        obD.say()
+    </script>
+</body>
+
+</html>
