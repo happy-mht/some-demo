@@ -242,7 +242,7 @@ function defineReactive (data, key, val) {
 
 Vue 实现的响应式原理：
 
-![vue](./vue.png)
+![vue](./Vue.png)
 
 ## 发布/订阅模式
 
