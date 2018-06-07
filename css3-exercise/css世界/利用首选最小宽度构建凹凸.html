@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>首先最小宽度的应用</title>
+	<style type="text/css">
+		.ao,.tu{
+			display: inline-block;
+			width: 0;
+			margin: 35px;
+		}
+		.ao::before{
+			content: 'love你love';
+			color: red;
+			outline: 2px solid #ccc;
+		}
+		.tu::before{
+			content: '我love你';
+			color: red;
+			outline: 2px solid #ccc;
+		}
+		.tu {
+		  direction: rtl;
+		}
+	</style>
+</head>
+<body>
+	<!-- 凹 -->
+  <span class="ao"></span>
+
+  <!-- 凸 -->
+  <span class="tu"></span>
+  <script type="text/javascript">
+  	var isPalindrome = function(x) {
+	    if (x < 0) return false;
+	    let ans = 0;
+	    while(x != 0) {
+	        ans = ans*10 + x%10;
+	        x = parseInt(x/10);
+	    }
+	    return ans == x ? true : false;
+	};
+	console.log(isPalindrome(121))
+  </script>
+</body>
+</html>

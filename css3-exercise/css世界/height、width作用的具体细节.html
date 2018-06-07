@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>height/width作用的具体细节</title>
+	<style type="text/css">
+		.demo{
+			width: 100px;
+			border: 5px solid #999;
+		}
+		.box {
+			height: 100px;
+			width: 200px;
+			padding: 20px;
+			border: 2px dashed #ccc;
+		}
+		.box .child {
+			height: 100%;
+			background-color: #beceeb;
+			width: 100%;
+			border: 2px dashed #ccc;
+		}
+
+		.box-relative {
+			margin-top: 20px;
+			height: 100px;
+			width: 200px;
+			position: relative;
+			padding: 20px;
+			border: 2px dashed #ccc;
+		}
+		.box-relative .child {
+			height: 100%;
+			background-color: #beceeb;
+			position: absolute;
+			width: 100%;
+			border: 2px dashed #ccc;
+		}
+		.pic-container{
+			position: relative; /*定位特性*/
+			margin-top: 50px;
+			display: inline-block; /*包裹性*/
+		}
+		img{
+			width: 200px!important;
+			max-width: 150px; /*max-width 会覆盖 width，且超越 !important*/
+			min-width: 170px; /*超越最大，min-width 会覆盖 max-width*/
+			height: auto; /*使图片保持原来的比例*/
+		}
+		.pre,.next {
+			position: absolute;
+			width: 50%;
+			height: 100%;
+			opacity: 0.5;
+		}
+		.pre{
+			left: 0;
+			background-color: #34538b;
+		}
+		.next{
+			right: 0;
+			background-color: #55538b;
+		}
+	</style>
+</head>
+<body>
+	<div class="demo">demo</div>
+<!-- 绝对定位元素的百分比计算和非绝对定位元素的百分比计算不同：
+     绝对定位元素的宽高百分比相对于 padding-box ，
+     非绝对定位元素的宽高百分比相对于 content-box -->
+	<div class="box">
+		<div class="child">
+			高度/宽度均为100px <strong>非绝对定位元素的宽高百分比相对于 content-box</strong>
+		</div>
+	</div>
+
+	<div class="box-relative">
+		<div class="child">
+			高度/宽度均为140px(=width + padding *2) <strong>绝对定位元素的宽高百分比相对于 padding-box</strong> 
+		</div>
+	</div>
+
+	<!-- 点击图片左右区域分别显示上一张图和下一张图的效果
+	     原理： 在图片外面一层具有“包裹性”，同时具有定位特性的标签 -->
+	<div class="pic-container">
+		<a href="" class="pre">pre</a>
+		<a href="" class="next">next</a>
+		<img src="./avator.png">
+	</div>
+</body>
+</html>

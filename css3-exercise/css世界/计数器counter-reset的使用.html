@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>计数器counter-reset的使用例子</title>
+	<style type="text/css">
+		.counter {
+			font-size: 24px;
+			counter-reset: lier 2;
+		}
+		.counter:before {
+			content: counter(lier);
+			color: #cd0000; 
+		}
+		/*.counter {
+		  counter-reset: wangxiaoer 2; 
+		  font-size: 32px; 
+		  font-family: Arial Black; 
+		  color: #cd0000; 
+		}
+		.counter:before { 
+		  content: counter(wangxiaoer); 
+		}*/
+	</style>
+</head>
+<body>
+  <p>我排行老二，下面要出现的数字是：</p>
+  <p class="counter"></p>
+</body>
+</html>

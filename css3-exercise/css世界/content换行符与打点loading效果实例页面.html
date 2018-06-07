@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>content换行符与打点loading效果实例页面</title>
+	<style type="text/css">
+		 dot {
+			display: inline-block;
+			height: 1em; 
+		    line-height: 1; /*只显示一个点*/
+		    text-align: left;
+		    vertical-align: -.25em; /*与文字水平对齐*/
+		    overflow: hidden; /*超出容器部分不显示*/
+		} 
+		/*使用before 是为了在高版本浏览器下原来的3个点推到最下面*/
+		dot::before { 
+			content: '...\A..\A.'; /*'\A' 表示换行*/
+			display: block;
+			white-space: pre-wrap; /*分3行显示，这里用 pre 也可*/
+			animation: dot 3s infinite step-start both;
+		}
+		/*使用transform控制垂直的位置*/
+		@keyframes dot {
+			33% {transform: translateY(-2em);}
+			66% {transform: translateY(-1em);}
+		}
+		.inline-padding {
+			padding: 5px;
+			background-color: #999;
+		}
+	</style>
+</head>
+<body>
+    在加载中 <dot>...</dot>
+
+    <span class="inline-padding">haha</span>
+    <div>this is under inline element </div>
+</body>
+</html>

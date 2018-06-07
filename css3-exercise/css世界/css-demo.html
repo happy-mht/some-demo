@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>css-demo</title>
+	<style type="text/css">
+		.button-active:active{
+			background-color: red;
+		}
+		.box {
+			padding: 10px;
+			background-color: #ccc;
+		}
+		.box > img {
+			float: left;
+			width: 50px;
+			height: 50px;
+		}
+		.clear::after{
+			display: block;
+			content: "";
+			clear: both;
+		}
+		.inline-table {
+		    display: inline-table;
+		    width: 128px;
+		    margin-left: 10px;
+		    border: 1px solid #cad5eb;
+		}
+		.inline-table > p {
+		    display: table-cell;
+		}
+		table{
+			width: 280px;
+			max-height: 0 auto;
+			text-align: left;
+		}
+		td {
+		    padding: 2px 4px;
+		    border: 3px solid #fff;
+		    background: #f9f9f9;
+		}
+		.father{
+			width: 150px;
+			background-color: #cd0000;
+			white-space: nowrap;
+			padding: 10px;
+		}
+		.child{
+			display: inline-block;
+			background-color: #f0f3f9;
+		}
+	</style>
+</head>
+<body>
+    <a class="button-active">click</a>
+    <div class="box clear">
+    	<img src="./avator.png">
+    </div>
+	和文字平起平坐的表格 
+	<div class="inline-table">
+		<p>first</p>
+		<p>second</p>
+	</div>
+
+	<table>
+	    <tr>
+	        <td>就1列就1列就1列就1列就1列</td>
+	        <td>当父级relative，且宽度很小的时候，例如...</td>
+	        <td>当父级relative，且宽度很小的时候，例如...</td>
+	    </tr>
+	</table>
+	<div class="father">
+	    <span class="child">恰如一江春水向东流，流到断崖也不回头</span>
+	</div>
+</body>
+</html>
+
+
