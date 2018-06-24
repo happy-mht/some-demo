@@ -1,0 +1,95 @@
+.login-wrap{
+	border: 1px solid #ccc;
+	background-color: #fff;
+	border-radius: 10px;
+	width: 348px;
+	margin: auto;
+	text-align: center;
+}
+.login-wrap .title{
+	font-size: 16px;
+}
+.login-wrap input {
+	margin:5px;
+}
+.login-wrap label {
+	display: inline-block;
+	width:65px;
+	text-align: right;
+}
+.btn{
+	border: none;
+    outline: none;
+    background-color: #3697de;
+    color: #fff;
+    font-size: 16px;
+    margin: 30px auto 10px;
+    padding: 5px;
+    border-radius: 5px;
+    letter-spacing: 5px;
+    cursor: pointer;
+}
+h2{
+	text-align: center;
+}
+.info-wrap{
+	height: 400px;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+    width: 400px;
+    margin-bottom: 10px;
+}
+.btn-send{
+	vertical-align: 20px;
+	margin: 0;
+}
+
+#ul_info{
+	padding-left: 0;
+}
+#ul_info li{
+	list-style:none;
+	background:url('/lib/girl.jpg') no-repeat left;
+	background-size: 30px;
+	
+}
+.msg-wrap .user{
+	border: 1px solid #807d3e;
+	border-radius: 10px;
+}
+.msg-my-wrap .msg{
+	background-color: lightgreen;
+	padding: 2px 5px;
+    border-radius: 5px;
+}
+.li-my-info{
+	background-image:url('/lib/girl2.jpg')!important;
+}
+.msg-wrap,.msg-my-wrap{
+	position: relative;
+	margin-left: 40px;
+}
+.msg-wrap .msg{
+	background-color: #fff;
+	padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.bot,.top{
+	width: 0;
+	height: 0;
+	font-size: 0;
+	border-width:7px;
+	border-style: solid;
+	border-color: transparent lightgreen transparent transparent;
+	position: absolute;
+	left: -14px;
+    top: 3px;
+}
+.top{
+	border-color: transparent #fff transparent transparent;
+	left: -13px;
+}
+.msg-wrap .bot{
+	border-color: transparent #ccc transparent transparent;
+}

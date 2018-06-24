@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>聊天室</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="lib/common.css">
+	<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<h2>欢迎来到棉花糖聊天室</h2>
+	<div class="test">
+	    <span class="bot"></span>
+	    <span class="top"></span>
+	    CSS “边框法”实现气泡对话框效果二
+	</div>
+    <p id="user"></p>
+    <div class="info-wrap">
+    	<ul id="ul_info"></ul>
+    </div>
+    <textarea id="txt" cols="45" rows="3"></textarea>
+    <button class="btn btn-send" id="send">发送</button>
+    <script type="text/javascript">
+    	let oUl = document.getElementById('ul_info');
+    	let socket = io.connect('ws://localhost:8000/');
+    	let oP = document.getElementById('user');
+    	let oTxt = document.getElementById('txt');
+        let oBtn = document.getElementById('send')
+
+
+    	let cur_user = document.cookie.split('=')[1];
+    	oP.innerHTML=cur_user;
+    	
+    	//收到别人信息
+    	socket.on('msg',(code,user,txt)=>{
+    		if(code){
+    			alert(txt)
+    		}else{
+    			let oLi = document.createElement('li');
+	    		oLi.innerHTML = `<p class="msg-wrap"><span class="bot"></span><span class="msg"> ${txt}</span></p>`
+	    		oUl.appendChild(oLi);
+    		}
+    		
+    		
+    	})
+        // 自己发信息
+    	socket.on('msg_res',(code,user,txt)=>{
+    		if(code){
+    			alert(txt)
+    		}else{
+    			let oLi = document.createElement('li');
+    			oLi.className='li-my-info';
+	    		oLi.innerHTML = `<p class="msg-my-wrap"><span class="bot"></span><span class="msg"> ${txt}</span></p>`
+	    		oUl.appendChild(oLi);
+	    		oTxt.value='';
+    		}
+    		
+    		
+    	})
+
+    	oBtn.onclick = function () {
+    		socket.emit('msg',cur_user,oTxt.value);
+    	}
+    </script>
+</body>
+</html>
